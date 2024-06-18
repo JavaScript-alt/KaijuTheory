@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MonsterVerse Kaiju Collection</title>
+  <style>
+    /* Reset and basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+      border-bottom: 1px solid #333;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header nav ul {
+      list-style-type: none;
+    }
+
+    header nav ul li {
+      display: inline;
+      margin: 0 10px;
+    }
+
+    header nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header nav ul li a:hover {
+      color: #1e90ff;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .profiles {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .profile {
+      flex: 0 0 23%;
+      margin: 10px;
+      background-size: cover;
+      background-position: center;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .profile h3 {
+      margin-bottom: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .profile p {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .discussion {
+      margin-top: 40px;
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .comment {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .comment .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #666;
+      margin-right: 10px;
+    }
+
+    .comment .comment-content {
+      flex: 1;
+      background-color: #444;
+      padding: 10px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .comment .comment-content .username {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .comment .comment-content .comment-text {
+      color: #ffffff;
+    }
+
+    .comment .like-button {
+      cursor: pointer;
+      margin-left: auto;
+      position: relative;
+    }
+
+    .like-button .heart-icon {
+      font-size: 1.5rem;
+      color: #bbb;
+      transition: color 0.3s;
+    }
+
+    .like-button .heart-icon.outline {
+      color: #bbb;
+    }
+
+    .like-button .heart-icon.liked {
+      color: #ff1493;
+    }
+
+    .like-button .highlight-box {
+      display: none;
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.1);
+      z-index: -1;
+    }
+
+    .like-button.liked .highlight-box {
+      display: block;
+    }
+
+    .like-button .like-count {
+      margin-left: 5px;
+      color: #bbb;
+    }
+
+    .like-button.liked .like-count {
+      color: #ff1493;
+    }
+
+    .username-form {
+      margin-bottom: 20px;
+    }
+
+    .username-form input {
+      padding: 10px;
+      margin-right: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .username-form button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #1e90ff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .username-form button:hover {
+      background-color: #1c7ed6;
+    }
+
+    #comment-form textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #333;
+      color: #fff;
+    }
+
+    #comment-form button {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #1e90ff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #comment-form button:hover {
+      background-color: #1c7ed6;
+    }
+
+    .account-info {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-weight: bold;
+      color: #1e90ff;
+    }
+
+    .animate-heart {
+      animation: heartBeat 1s infinite;
+    }
+
+    @keyframes heartBeat {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#profiles">Profiles</a></li>
+        <li><a href="#discussion">Discussion</a></li>
+      </ul>
+    </nav>
+    <div class="account-info"></div>
+  </header>
+
+  <main>
+    <section id="profiles">
+      <h2>Character Profiles</h2>
+      <div class="profiles">
+        <div class="profile" style="background-image: url('file:///C:/Users/ibn0001/Downloads/king_kong_textless.png');">
+          <h3>King Kong</h3>
+          <p>King Kong is a giant ape who battles various creatures and human forces in the MonsterVerse. Known for his strength and intelligence, Kong is a formidable protector of his territory.</p>
+        </div>
+        <div class="profile" style="background-image: url('file:///C:/Users/ibn0001/Downloads/Godzilla_2021.png');">
+          <h3>Godzilla</h3>
+          <p>Godzilla, the King of the Monsters, is a colossal reptilian Kaiju with immense power and radioactive breath. He is both a destroyer and a savior, maintaining balance in the world.</p>
+        </div>
+        <div class="profile" style="background-image: url('file:///C:/Users/ibn0001/Downloads/h.png');">
+          <h3>Scarking</h3>
+          <p>Scarking is a newly introduced Kaiju known for its fierce battle tactics and dominance over the skies. With razor-sharp claws and wings, it is a force to be reckoned with.</p>
+        </div>
+        <div class="profile" style="background-image: url('file:///C:/Users/ibn0001/Downloads/Shimo.png');">
+          <h3>Shimo</h3>
+          <p>Shimo, the ice Kaiju, has the ability to control and manipulate ice. This cold-blooded creature is known for its strategic mind and icy demeanor in battles.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="discussion" class="discussion">
+      <h2>Discussion</h2>
+      <div class="username-form">
+        <h3>Create a Username</h3>
+        <input type="text" id="username-input" placeholder="Enter your username">
+        <button onclick="createUsername()">Submit</button>
+      </div>
+      <div id="comments"></div>
+      <form id="comment-form" onsubmit="postComment(event)">
+        <textarea id="comment-input" placeholder="Write a comment..." rows="3" cols="50"></textarea>
+        <button type="submit">Post Comment</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    let username = '';
+    const usernames = new Set();
+
+    function createUsername() {
+      const usernameInput = document.getElementById('username-input').value.trim();
+      if (usernameInput !== '' && !usernames.has(usernameInput)) {
+        username = usernameInput;
+        usernames.add(username);
+        document.querySelector('.username-form').style.display = 'none';
+        updateAccountInfo();
+        document.getElementById('comment-input').focus(); // Focus on comment input after username set
+      } else {
+        alert('Please enter a valid and unique username.');
+      }
+    }
+
+    function updateAccountInfo() {
+      const accountInfoElements = document.querySelectorAll('.account-info');
+      accountInfoElements.forEach(element => {
+        element.textContent = `Account: ${username}`;
+      });
+    }
+
+    function postComment(event) {
+      event.preventDefault();
+      const commentInput = document.getElementById('comment-input').value.trim();
+      if (commentInput !== '') {
+        const commentsContainer = document.getElementById('comments');
+
+        // Create comment element
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+
+        // User avatar
+        const userAvatar = document.createElement('div');
+        userAvatar.classList.add('user-avatar');
+        userAvatar.style.backgroundColor = getRandomColor();
+        commentElement.appendChild(userAvatar);
+
+        // Comment content
+        const commentContent = document.createElement('div');
+        commentContent.classList.add('comment-content');
+
+        // Username
+        const usernameElement = document.createElement('span');
+        usernameElement.classList.add('username');
+        usernameElement.textContent = `${username}:`;
+        commentContent.appendChild(usernameElement);
+
+        // Comment text
+        const commentText = document.createElement('p');
+        commentText.classList.add('comment-text');
+        commentText.textContent = commentInput;
+        commentContent.appendChild(commentText);
+
+        // Like button
+        const likeButton = document.createElement('div');
+        likeButton.classList.add('like-button');
+        likeButton.innerHTML = '<span class="heart-icon outline">♡</span><div class="highlight-box"></div><span class="like-count">0</span>';
+        likeButton.addEventListener('click', function() {
+          if (!this.classList.contains('liked')) {
+            this.classList.add('liked');
+            this.querySelector('.heart-icon').textContent = '❤️';
+            this.querySelector('.highlight-box').style.display = 'block';
+            const likeCount = parseInt(this.querySelector('.like-count').textContent);
+            this.querySelector('.like-count').textContent = likeCount + 1;
+          } else {
+            this.classList.remove('liked');
+            this.querySelector('.heart-icon').textContent = '♡';
+            this.querySelector('.highlight-box').style.display = 'none';
+            const likeCount = parseInt(this.querySelector('.like-count').textContent);
+            this.querySelector('.like-count').textContent = likeCount - 1;
+          }
+        });
+        commentContent.appendChild(likeButton);
+
+        // Append comment content to comment element
+        commentElement.appendChild(commentContent);
+
+        // Append comment element to comments container
+        commentsContainer.appendChild(commentElement);
+
+        // Clear comment input
+        document.getElementById('comment-input').value = '';
+      } else {
+        alert('Please enter a valid comment.');
+      }
+    }
+
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+  </script>
+</body>
+</html>
